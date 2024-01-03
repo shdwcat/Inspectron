@@ -1,5 +1,5 @@
-// INSPECTRON - A Fluent API for easily creating GM debug overlays
-// copyright @shdwcat 2023 
+// INSPECTRON - A fluent API for easily creating GameMaker debug views
+// copyright @shdwcat 2024
 
 // (these are restored at end of file)
 // feather disable GM1056

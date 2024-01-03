@@ -1,5 +1,5 @@
-// INSPECTRON - A Fluent API for easily creating GM debug overlays
-// copyright @shdwcat 2023 
+// INSPECTRON - A fluent API for easily creating GameMaker debug views
+// copyright @shdwcat 2024
 
 // === Configuration - edit these if you want! ===
 
