@@ -27,7 +27,7 @@ You can customize which button and which modifier key to use in the config macro
 ```gml
 // mouse button and optional modifier key to trigger Inspectron if enabled above
 #macro INSPECTRON_GESTURE_MOUSE_BUTTON mb_middle
-#macro INSPECTRON_GESTURE_MODIFIER vk_shift			// set to undefined for no modifier
+#macro INSPECTRON_GESTURE_MODIFIER vk_shift // set to undefined for no modifier
 ```
 
 ## Customize Which Objects Get Inspected
