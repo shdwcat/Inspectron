@@ -1,20 +1,19 @@
 # INSPECTRON 1.0.0
-A fluent API for easily creating GameMaker debug views
+A library for easily creating GameMaker debug views
 
 ## What is Inspectron?
-Inspectron is a library to help you easily create debug views for objects in your game using a simple [fluent API][fluent_api].
+Inspectron is a library designed to help you easily create debug views for objects in your game, and lets you easily customize what values get displayed using a simple [fluent API][fluent_api]. Inspectron calculates the best place to put the debug view, ensuring that it's sized appropriately and remains entirely on screen, and automatically closes the view if the target object is destroyed.
 
 Here's an example of Inspectron working out-of-the-box in the Windy Woods template project:
 ![image](https://github.com/shdwcat/Inspectron/assets/15136382/cac60a04-29e6-4ff7-a7a3-bca99a0ebf98)
 
-Inspectron can automatically generate a debug view for built-in variables on an instance, as you can see above, but it also allows you to easily customize what values get displayed for objects you create. Here's another example of the custom inspection for [YUI](https://github.com/shdwcat/YUI):
+Inspectron can automatically generate a debug view for built-in variables on an instance, as you can see above, but it also allows you to easily customize what values get displayed for objects you create.
+
+Here's an example of the custom inspection for my GameMaker UI library, [YUI](https://github.com/shdwcat/YUI):
 ![image](https://github.com/shdwcat/Inspectron/assets/15136382/d0f68545-37af-4a2c-915d-58fce4386d14)
 
 ## Quick Start
-First, import the .yymps package from the [Releases page](https://github.com/shdwcat/Inspectron/releases) into your project. Once that's done, you have a few options for how to enable Inspectron in your project.
-
-### Fastest
-The fastest way to see what Inspectron can do is to turn on the default mouse gesture, which is as easy as setting one config macro.
+First, import the .yymps package from the [Releases page](https://github.com/shdwcat/Inspectron/releases) into your project. Once that's done, you have a few options for how to enable Inspectron in your project, but the fastest way to see what Inspectron can do is to enable the default mouse gesture, which is as easy as setting one config macro.
 
 To start, open the InspectronConfig script asset in the project root and set `INSPECTRON_GESTURE_ENABLED` to true:
 ```gml
@@ -22,7 +21,7 @@ To start, open the InspectronConfig script asset in the project root and set `IN
 #macro INSPECTRON_GESTURE_ENABLED true
 ```
 
-Once this is set, Inspectron will use the default mouse gesture, Shift+Middle-Click, to open the Inspectron overlay for any instance under the mouse cursor. If `INSPECTRON_AUTO_INSPECT_ENABLED` is true (which it is by default), Inspectron will automatically display many of the common built-in variables for those instances (and allow you to edit some of them!). You can see what this looks like in that first Windy Woods screenshot above.
+Once this is set, Inspectron will configure the default mouse gesture, Shift+Middle-Click, to open the Inspectron debug view for any instance under the mouse cursor. If `INSPECTRON_AUTO_INSPECT_ENABLED` is true (which it is by default), Inspectron will automatically display many of the common built-in variables for those instances (and allow you to edit some of them!). You can see what this looks like in that first Windy Woods screenshot above.
 
 You can customize which button and which modifier key to use in the config macros below that line:
 ```gml
@@ -31,9 +30,9 @@ You can customize which button and which modifier key to use in the config macro
 #macro INSPECTRON_GESTURE_MODIFIER vk_shift			// set to undefined for no modifier
 ```
 
-### Customize Which Objects Get Inspected
+## Customize Which Objects Get Inspected
 
-The automatic shortcut method will show the Inspectron view for *all* instances under the mouse cursor, but if your game is complex you may want to customize which objects actually get included in the view, especially if you want to differentiate between instances that draw in the game world vs instances that draw to the GUI layer.
+The automatic gesture method will show the Inspectron view for *all* instances under the mouse cursor, but if your game is complex you may want to customize which objects actually get included in the view, especially if you want to differentiate between instances that draw in the game world vs instances that draw to the GUI layer.
 
 To do that, you'll need an object event to trigger Inspectron, where you can customize what Inspectron does. For example, you can add a Global Middle Released event to a controller object in your game. Once you have that, you'll want to call `InspectronGo()` with some custom arguments. For example:
 ```gml
@@ -41,11 +40,14 @@ To do that, you'll need an object event to trigger Inspectron, where you can cus
 InspectronGo(obj_character_base, obj_gui_base, "Characters and GUI");
 ```
 * The first parameter tells Inspectron which kind of instances to look for in the game world, using room coordinates.
-* The second (optional) parameter tells Inspectron which kind of instances to look for in the GUI layer. You can pass `undefined` if you don't want Inspectron to check for GUI instances.
-* The third (optional) parameter is simply a name for the debug overlay. You can set up different shortcut for inspecting different kinds of objects, so the name can help you remember which one is being shown (and will be listed in the Views menu at the top of the GameMaker debug overlay). If you don't pass a name, `"Inspectron"` will be used by default.
-* There is a fourth (optional) parameter, which can be a function that returns a name to display for a given instance. For example, if your characters have a `name` variable, you can pass `function (instance) { return instance.name; }`, and that `name` will be displayed in the Inspectron debug view, and in the dropdown to choose which instance to inspect if multiple are overlapping (see screenshots above). By default, Inspectron will show the numeric ID of the instance and the name of the GM object from the instance's `object_index` variable.
+* The second (optional) parameter tells Inspectron which kind of instances to look for in the GUI layer.
+  * You can pass `undefined` if you don't want Inspectron to check for GUI instances.
+* The third (optional) parameter is simply a name for the debug view. You can set up different gestures for inspecting different kinds of objects, so the name can help you remember which one is being shown (and will be listed in the Views menu at the top of the GameMaker debug overlay).
+  * If you don't pass a name, `"Inspectron"` will be used by default.
+* There is a fourth (optional) parameter, which can be a function that returns a name to display for a given instance. For example, if your characters have a `name` variable, you can pass `function (instance) { return instance.name; }`, and that `name` will be displayed in the Inspectron debug view, and in the dropdown to choose which instance to inspect if multiple are overlapping (see screenshots above).
+  * By default, Inspectron will show the numeric ID of the instance and the name of the GM object from the instance's `object_index` variable (as seen in the screenshots above).
 
-## Customize Which Variables Inspectron Displays
+## Customize the Inspectron View for Different Objects
 
 The built-in variables that Inspectron can display automatically are convenient, but you'll likely want to make your custom variables on objects inspectable as well. Inspectron makes this very easy, by providing a [fluent API][fluent_api] to tell Inspectron what variables to display and how to display them. Inspectron will then take care of making the underlying `dbg_` function calls for you to display the Debug view.
 
@@ -53,7 +55,9 @@ You should define the Inspectron fields for an object at the **very end** of the
 ```gml
 // in obj_player Create Event
 
-... // All the other code in your create event
+...
+// All the other code in your create event
+...
 
 Inspectron
   .Section("player")
@@ -64,8 +68,9 @@ Inspectron
 
 The above code will tell Inspectron to show:
 * A [section][dbg_section] named "player".
-* The current value of the `player_value` variable on the obj_player instance. The second parameter tells Inspectron to use `"Health"` as the label, instead of re-using the variable name (`"player_health"`).
-* A [checkbox][dbg_checkbox] to allow you to set the `invulnerable` value on the obj_player instance to `true` or `false`.
+* The current value of the `player_value` variable on the obj_player instance.
+  * The second parameter tells Inspectron to use `"Health"` as the label, instead of re-using the variable name (`"player_health"`).
+* A [checkbox][dbg_checkbox] to allow you to set the `invulnerable` variable on the obj_player instance to `true` or `false`.
 * The standard set of built-in variables that Inspectron can display by default.
   * You can go look at the function to see how it's set up! It's just using the same functions you can use elsewhere.
 
@@ -102,7 +107,7 @@ You may want to include a `.Section` or `.Header` in child objects to make clear
 * `.FilteredSpritePicker(field_name, filter_func, [label])` - Creates a dropdown listing the current sprite and allowing the user to pick from a filtered list of sprites
   * `filter_func` is of the form `(sprite_asset, sprite_name) -> Bool`, where returning `true` will include that sprite in the list.
 * `.AssetPicker(field_name, asset_type, asset_name_func, [label])` - Creates a dropdown listing the current asset for the named field, and lists all of the assets of the provided `asset_type` using the `asset_name_func` to determine the name to display
- * NOTE: This is provided so that you can create Asset Pickers for things besides Font and Sprite, but over time Inspectron will get more functions for each Asset type as I get around to it
+  * NOTE: This is provided so that you can create Asset Pickers for things besides Font and Sprite, but over time Inspectron will get more functions for each Asset type as I get around to it
  
 #### Advanced
 * `.Include(field_name, [label])` - `field_name` should be the name of variable pointing to another GM instance or struct, with its own Inspectron defined on it. A label will be rendered, followed by all of the fields defined by the Inspectron on the referenced instance/struct (which can `.Include()` more instances/structs!), indented accordingly.
