@@ -10,7 +10,9 @@
     "name": "Default",
   },
   "defaultScriptType": 1,
-  "Folders": [],
+  "Folders": [
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Example","folderPath":"folders/Example.yy",},
+  ],
   "IncludedFiles": [],
   "isEcma": false,
   "LibraryEmitters": [],
@@ -19,9 +21,15 @@
   },
   "resources": [
     {"id":{"name":"InspectronConfig","path":"scripts/InspectronConfig/InspectronConfig.yy",},},
+    {"id":{"name":"ExampleRoom","path":"rooms/ExampleRoom/ExampleRoom.yy",},},
+    {"id":{"name":"spr_pixel","path":"sprites/spr_pixel/spr_pixel.yy",},},
+    {"id":{"name":"sprite_test","path":"sprites/sprite_test/sprite_test.yy",},},
+    {"id":{"name":"obj_example","path":"objects/obj_example/obj_example.yy",},},
     {"id":{"name":"Inspectron","path":"scripts/Inspectron/Inspectron.yy",},},
   ],
-  "RoomOrderNodes": [],
+  "RoomOrderNodes": [
+    {"roomId":{"name":"ExampleRoom","path":"rooms/ExampleRoom/ExampleRoom.yy",},},
+  ],
   "templateType": null,
   "TextureGroups": [
     {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"targets":-1,},
