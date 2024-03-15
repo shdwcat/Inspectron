@@ -59,7 +59,7 @@ You should define the Inspectron fields for an object at the **very end** of the
 // All the other code in your create event
 ...
 
-Inspectron
+Inspectron()
   .Section("player")
   .Watch(nameof(player_health), "Health")
   .Checkbox(nameof(invulnerable))
