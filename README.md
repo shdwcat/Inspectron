@@ -1,4 +1,4 @@
-# INSPECTRON 1.0.0
+# INSPECTRON 1.0.1
 A library for easily creating GameMaker debug views
 
 ## What is Inspectron?
@@ -108,7 +108,7 @@ You may want to include a `.Section` or `.Header` in child objects to make clear
   * `filter_func` is of the form `(sprite_asset, sprite_name) -> Bool`, where returning `true` will include that sprite in the list.
 * `.AssetPicker(field_name, asset_type, asset_name_func, [label])` - Creates a dropdown listing the current asset for the named field, and lists all of the assets of the provided `asset_type` using the `asset_name_func` to determine the name to display
   * NOTE: This is provided so that you can create Asset Pickers for things besides Font and Sprite, but over time Inspectron will get more functions for each Asset type as I get around to it
- 
+
 #### Advanced
 * `.Include(field_name, [label])` - `field_name` should be the name of variable pointing to another GM instance or struct, with its own Inspectron defined on it. A label will be rendered, followed by all of the fields defined by the Inspectron on the referenced instance/struct (which can `.Include()` more instances/structs!), indented accordingly.
   * This can be very useful if, for example, your character instance has a `weapon` variable which is an instance or struct with its own variables. Define an Inspectron on that instance/struct and it can be displayed in the character's Inspectron!
